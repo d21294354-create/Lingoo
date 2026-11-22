@@ -1,0 +1,27 @@
+DEMIR LINGOO - TELEFONA KURULABILIR PWA
+
+PAKET ICERIGI
+- index.html: uygulama
+- manifest.webmanifest: telefon uygulamasi kurulum bilgileri
+- sw.js: cevrimdisi onbellegi
+- icons/icon-192.png ve icon-512.png: kullanicinin verdigi resmi uygulama simgesi
+- icons/login-screen.jpg: giris ekrani gorseli
+
+ANDROID'A KURULUM
+1. ZIP dosyasini bilgisayarda veya telefonda cikart.
+2. ZIP icindeki tum dosya ve klasorleri web sitenin yayin klasorune, klasor yapisini bozmadan yukle.
+3. Siteni HTTPS adresiyle Chrome'da ac.
+4. Chrome menu (uc nokta) > "Uygulamayi yukle" veya "Ana ekrana ekle" secenegine dokun.
+5. Kurulumdan sonra uygulama tarayici cubugu olmadan, tam ekran benzeri ayri pencerede acilir.
+
+CEVRIMDISI VE VERI
+- Ilk basarili internet ziyaretinden sonra uygulama dosyalari onbellege alinir.
+- Ogrenme ilerlemesi ve jetonlar cihazdaki tarayici depolamasinda (localStorage) saklanir.
+- Cevrimdisi ilk acilis icin once uygulamanin HTTPS adresini internet varken bir kez ac.
+- Tarayici verileri temizlenirse yerel ilerleme ve bu cihazda olusturulan demo hesaplari silinebilir.
+
+ONEMLI
+- PWA kurulumunun calismasi icin site HTTPS uzerinden yayinlanmalidir (localhost haric).
+- ZIP'in icindeki tum dosyalari birlikte yukle; yalnizca index.html yeterli degildir.
+- Bu paket Google Play Store APK/AAB dosyasi degildir; web sitesini telefona kurulabilir PWA yapar.
+- Giris/hesap sistemi mevcut uygulamada bu cihazda calisan demo hesaplardir; merkezi, sunucu tabanli hesap guvenligi saglamaz.

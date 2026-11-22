@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#f04444">
-<title>Lingoo — Kelime Macerası</title>
+<meta name="theme-color" content="#e50914">
+<title>Demir lingoo — Kelime Macerası</title>
 <style>
 :root{--red:#ef4444;--red2:#d92f39;--ink:#242633;--muted:#747887;--cream:#fffaf5;--line:#eee8e2;--green:#58b368;--gold:#f5b82e}
 *{box-sizing:border-box}body{margin:0;background:#fffaf6;color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
@@ -25,14 +25,58 @@ button{font:inherit}.primary{border:0;border-radius:14px;background:var(--red);c
 footer{text-align:center;color:#96939a;font-size:12px;margin-top:25px}
 @media(max-width:600px){.hero{grid-template-columns:1fr 112px;padding:16px}.mascot{max-width:112px}.accessory{font-size:29px}.answers{grid-template-columns:1fr}.stat{flex:1}.panel{padding:16px}}
 </style>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Demir lingoo">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+
+<style>
+.login-screen{min-height:100svh;display:flex;justify-content:center;align-items:flex-start;padding:0;background:#120000;color:#fff}
+.login-poster{position:relative;width:min(100%,520px);margin:0 auto;line-height:0}
+.login-poster>img{display:block;width:100%;height:auto}
+.poster-login-form{position:absolute;inset:0}
+.poster-login-form input{position:absolute;left:9.2%;width:81.5%;height:5.5%;padding:0 5.5%;border:0;border-radius:999px;background:transparent;color:#fff;font:700 clamp(14px,4.2vw,22px) system-ui;outline:none;line-height:1}
+.poster-login-form input::placeholder{color:transparent}
+.poster-login-form input:focus{box-shadow:0 0 0 2px #ffb84a,0 0 16px #ff2c2c}
+#loginUsername{top:60.4%}
+#loginPassword{top:67.0%}
+.poster-login-submit,.poster-create{position:absolute;left:8.5%;width:83%;border:0;border-radius:999px;background:transparent;cursor:pointer}
+.poster-login-submit{top:74.0%;height:6.5%}
+.poster-create{top:83.2%;height:6.0%}
+.poster-login-submit:focus-visible,.poster-create:focus-visible{outline:3px solid #ffd36a;outline-offset:3px}
+.login-message{position:absolute;top:89.5%;left:8%;width:84%;margin:0;color:#ffe2bd;text-align:center;font:600 12px system-ui;line-height:1.3;text-shadow:0 1px 4px #000}
+body:not(.logged-in) header,body:not(.logged-in) main{display:none!important}
+body.logged-in .login-screen{display:none!important}
+@media(min-width:700px){.login-poster{width:min(100%,480px)}}
+</style>
+
 </head>
 <body>
-<header><div class="logo">🐦 Lingoo</div><div class="coins">🪙 <span id="coins">0</span> coin</div></header>
+
+
+<section class="login-screen" id="loginScreen">
+  <div class="login-poster">
+    <img src="icons/login-screen.jpg" alt="Demir Lingoo kırmızı kuşlu giriş ekranı">
+    <form class="poster-login-form" id="loginForm" aria-label="Giriş formu">
+      <input id="loginUsername" type="text" placeholder="Kullanıcı adı" aria-label="Kullanıcı adı" autocomplete="username" required>
+      <input id="loginPassword" type="password" placeholder="Şifre" aria-label="Şifre" autocomplete="current-password" required>
+      <button class="poster-login-submit" id="loginSubmit" type="submit" aria-label="Giriş yap"></button>
+      <button class="poster-create" id="createAccount" type="button" aria-label="Hesap oluştur"></button>
+      <p class="login-message" id="loginMessage" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+
+
+<header><div class="logo">🐦 Demir lingoo</div><div class="row" style="gap:8px"><div class="coins">🪙 <span id="coins">0</span> jeton</div><button class="logout-btn" id="logoutButton" type="button">Çıkış</button></div></header>
 <main>
 <section class="hero">
- <div><h1>Kelimeleri öğren, kuşunu geliştir!</h1><p class="sub">Her doğru cevapta coin kazan. Coinlerinle kırmızı dostunu özelleştir.</p>
+ <div><h1>Kelimeleri öğren, kuşunu geliştir!</h1><p class="sub">Her doğru cevapta jeton kazan. Coinlerinle kırmızı dostunu özelleştir.</p>
  <div class="stats"><div class="stat"><b id="learned">0</b><small>Doğru cevap</small></div><div class="stat"><b id="streak">0</b><small>Seri</small></div><div class="stat"><b id="daily">0/10</b><small>Bugünkü hedef</small></div></div></div>
- <div class="mascotWrap"><div class="accessory" id="equipped"> </div><img class="mascot" src="mascot.png" alt="Lingoo kırmızı kuş maskotu" onerror="this.style.display='none';document.getElementById('fallback').style.display='block'"><div id="fallback" style="display:none;font-size:100px">🐦</div></div>
+ <div class="mascotWrap"><div class="accessory" id="equipped"> </div><img class="mascot" src="mascot.png" alt="Demir lingoo kırmızı kuş maskotu" onerror="this.style.display='none';document.getElementById('fallback').style.display='block'"><div id="fallback" style="display:none;font-size:100px">🐦</div></div>
 </section>
 <nav class="tabs">
  <button class="tab active" data-tab="study">📚 Çalış</button><button class="tab" data-tab="shop">🎨 Kuşum</button><button class="tab" data-tab="words">📖 Kelimeler</button>
@@ -45,9 +89,9 @@ footer{text-align:center;color:#96939a;font-size:12px;margin-top:25px}
  <div class="row"><button class="soft" id="skip">Atla</button><button class="primary" id="next" disabled>Sonraki soru →</button></div>
  <div class="notice">İpucu: Her dilin kelime listesi başlangıç seviyesi için hazırlanmıştır. İlerleyen sürümlerde seviyeler ve yeni kelime paketleri ekleyebiliriz.</div>
 </section>
-<section id="shop" class="panel" hidden><div class="row"><h2>Kuşunu özelleştir</h2><span style="font-weight:850">🪙 <span id="shopCoins">0</span></span></div><p class="sub">Aksesuarları coin ile al, sonra kuşuna tak!</p><div class="shopGrid" id="shopGrid"></div></section>
+<section id="shop" class="panel" hidden><div class="row"><h2>Kuşunu özelleştir</h2><span style="font-weight:850">🪙 <span id="shopCoins">0</span></span></div><p class="sub">Aksesuarları jeton ile al, sonra kuşuna tak!</p><div class="shopGrid" id="shopGrid"></div></section>
 <section id="words" class="panel" hidden><h2>Kelime defterim</h2><p class="sub">Çalıştığın dilin kelimeleri burada.</p><div class="wordlist" id="wordlist"></div></section>
-<footer>Lingoo · Öğrenerek kazan, kazandıkça kişiselleştir.</footer>
+<footer>Demir lingoo · Öğrenerek kazan, kazandıkça kişiselleştir.</footer>
 </main>
 <script>
 const BANK={
@@ -71,15 +115,116 @@ function showQuestion(){answered=false;current=pool[idx];$("counter").textConten
  const others=shuffle(BANK[lang].filter(x=>x[0]!==current[0])).slice(0,3).map(x=>x[1]);const opts=shuffle([current[1],...others]);$("answers").innerHTML="";
  opts.forEach(v=>{const b=document.createElement("button");b.className="answer";b.textContent=v;b.onclick=()=>choose(b,v);$("answers").appendChild(b)})}
 function choose(btn,value){if(answered)return;answered=true;const ok=value===current[1];document.querySelectorAll(".answer").forEach(b=>{b.disabled=true;if(b.textContent===current[1])b.classList.add("correct")});if(!ok)btn.classList.add("wrong");
- if(ok){state.coins+=10;state.correct++;state.streak++;state.daily++;sessionCorrect++;state.learned[lang]=state.learned[lang]||[];if(!state.learned[lang].includes(current[0]))state.learned[lang].push(current[0]);let bonus="";if(state.streak%5===0){state.coins+=25;bonus=" · 5'li seri bonusu +25 coin!";}$("feedback").textContent="Harika! +10 coin"+bonus;$("feedback").style.color="#29934a"}else{state.streak=0;$("feedback").textContent="Olmadı! Doğru cevap: "+current[1];$("feedback").style.color="#d94b4b"}
+ if(ok){state.coins+=10;state.correct++;state.streak++;state.daily++;sessionCorrect++;state.learned[lang]=state.learned[lang]||[];if(!state.learned[lang].includes(current[0]))state.learned[lang].push(current[0]);let bonus="";if(state.streak%5===0){state.coins+=25;bonus=" · 5'li seri bonusu +25 jeton!";}$("feedback").textContent="Harika! +10 jeton"+bonus;$("feedback").style.color="#29934a"}else{state.streak=0;$("feedback").textContent="Olmadı! Doğru cevap: "+current[1];$("feedback").style.color="#d94b4b"}
  save();$("next").disabled=false;$("bar").style.width=((idx+1)/pool.length*100)+"%"}
 $("next").onclick=()=>{if(idx<pool.length-1){idx++;showQuestion()}else{$("prompt").textContent="Tur tamamlandı! 🎉";$("instruction").textContent=`${sessionCorrect} / ${pool.length} doğru cevap verdin.`;$("answers").innerHTML="";$("feedback").textContent="Yeni bir tur için aşağıya dokun.";$("next").textContent="Yeni tur başlat";$("next").disabled=false;$("next").onclick=()=>{ $("next").onclick=nextHandler;startRound()};}};
 function nextHandler(){if(idx<pool.length-1){idx++;showQuestion()}else{startRound()}}
 $("skip").onclick=()=>{if(idx<pool.length-1){idx++;showQuestion()}else{startRound()}};
 $("language").onchange=e=>{lang=e.target.value;startRound();renderWords()};
 document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x===t));["study","shop","words"].forEach(id=>$(id).hidden=id!==t.dataset.tab);if(t.dataset.tab==="shop")renderShop();if(t.dataset.tab==="words")renderWords()});
-function renderShop(){$("shopCoins").textContent=state.coins;$("shopGrid").innerHTML="";ITEMS.forEach(item=>{const owned=state.owned.includes(item.id),equipped=state.equipped===item.id;const d=document.createElement("div");d.className="item";d.innerHTML=`<div class="emoji">${item.emoji}</div><b>${item.name}</b><small>${owned?"Sahipsin":item.price+" coin"}</small><button class="${owned?"soft":"primary"}">${equipped?"Takılı":owned?"Kuşa tak":"Satın al"}</button>`;d.querySelector("button").onclick=()=>{if(owned){state.equipped=equipped?null:item.id}else if(state.coins>=item.price){state.coins-=item.price;state.owned.push(item.id);state.equipped=item.id}else{alert("Yeterli coin yok. Biraz daha kelime çalış!")}save();renderShop()};$("shopGrid").appendChild(d)})}
+function renderShop(){$("shopCoins").textContent=state.coins;$("shopGrid").innerHTML="";ITEMS.forEach(item=>{const owned=state.owned.includes(item.id),equipped=state.equipped===item.id;const d=document.createElement("div");d.className="item";d.innerHTML=`<div class="emoji">${item.emoji}</div><b>${item.name}</b><small>${owned?"Sahipsin":item.price+" jeton"}</small><button class="${owned?"soft":"primary"}">${equipped?"Takılı":owned?"Kuşa tak":"Satın al"}</button>`;d.querySelector("button").onclick=()=>{if(owned){state.equipped=equipped?null:item.id}else if(state.coins>=item.price){state.coins-=item.price;state.owned.push(item.id);state.equipped=item.id}else{alert("Yeterli coin yok. Biraz daha kelime çalış!")}save();renderShop()};$("shopGrid").appendChild(d)})}
 function renderWords(){const words=BANK[lang];const learned=state.learned[lang]||[];$("wordlist").innerHTML=words.map(w=>`<div class="word"><b>${w[0]}</b><span>${w[1]} ${learned.includes(w[0])?"✓":""}</span></div>`).join("")}
 renderStats();startRound();renderWords();
 </script>
+
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js").catch(err => {
+      console.warn("Service worker registration failed:", err);
+    });
+  });
+}
+</script>
+
+
+<script>
+(() => {
+  const $id = id => document.getElementById(id);
+  const form = $id("loginForm");
+  const usernameInput = $id("loginUsername");
+  const passwordInput = $id("loginPassword");
+  const message = $id("loginMessage");
+  const submit = $id("loginSubmit");
+  const create = $id("createAccount");
+  let createMode = false;
+
+  function showApp(username) {
+    sessionStorage.setItem("demirLingooDemoSession", username);
+    document.body.classList.add("logged-in");
+    const credit = document.querySelector(".logo");
+    if (credit) credit.title = "Hoş geldin, " + username;
+  }
+
+  async function passwordHash(value) {
+    const bytes = new TextEncoder().encode(value);
+    const digest = await crypto.subtle.digest("SHA-256", bytes);
+    return Array.from(new Uint8Array(digest)).map(b => b.toString(16).padStart(2, "0")).join("");
+  }
+
+  create.addEventListener("click", () => {
+    createMode = !createMode;
+    submit.textContent = createMode ? "HESAP OLUŞTUR →" : "GİRİŞ YAP →";
+    create.textContent = createMode ? "GİRİŞ EKRANINA DÖN" : "HESAP OLUŞTUR";
+    passwordInput.autocomplete = createMode ? "new-password" : "current-password";
+    message.textContent = createMode
+      ? "Yeni hesabın bu cihazda oluşturulacak. Kullanıcı adı en az 3, şifre en az 6 karakter olmalı."
+      : "";
+  });
+
+  form.addEventListener("submit", async event => {
+    event.preventDefault();
+    const username = usernameInput.value.trim();
+    const password = passwordInput.value;
+    if (username.length < 3 || password.length < 6) {
+      message.textContent = "Kullanıcı adı en az 3, şifre en az 6 karakter olmalı.";
+      return;
+    }
+    if (!crypto.subtle) {
+      message.textContent = "Güvenli giriş için siteyi HTTPS üzerinden açmalısın.";
+      return;
+    }
+    submit.disabled = true;
+    try {
+      const users = JSON.parse(localStorage.getItem("demirLingooUsers") || "{}");
+      const key = username.toLocaleLowerCase("tr");
+      const hash = await passwordHash(password);
+      if (createMode) {
+        if (users[key]) {
+          message.textContent = "Bu kullanıcı adı zaten alınmış.";
+          return;
+        }
+        users[key] = { username, passwordHash: hash };
+        localStorage.setItem("demirLingooUsers", JSON.stringify(users));
+        createMode = false;
+        submit.textContent = "GİRİŞ YAP →";
+        create.textContent = "HESAP OLUŞTUR";
+        message.textContent = "Hesabın bu cihazda oluşturuldu. Şimdi giriş yapabilirsin.";
+        passwordInput.value = "";
+      } else {
+        if (!users[key] || users[key].passwordHash !== hash) {
+          message.textContent = "Kullanıcı adı veya şifre hatalı. Önce hesap oluşturman gerekebilir.";
+          return;
+        }
+        showApp(users[key].username);
+      }
+    } catch (error) {
+      message.textContent = "Bir sorun oluştu. Lütfen tekrar dene.";
+    } finally {
+      submit.disabled = false;
+    }
+  });
+
+  $id("logoutButton").addEventListener("click", () => {
+    sessionStorage.removeItem("demirLingooDemoSession");
+    document.body.classList.remove("logged-in");
+    passwordInput.value = "";
+    message.textContent = "";
+  });
+
+  const activeUser = sessionStorage.getItem("demirLingooDemoSession");
+  if (activeUser) showApp(activeUser);
+})();
+</script>
+
 </body></html>
