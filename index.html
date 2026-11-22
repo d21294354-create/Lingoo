@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f04444">
+<title>Lingoo — Kelime Macerası</title>
+<style>
+:root{--red:#ef4444;--red2:#d92f39;--ink:#242633;--muted:#747887;--cream:#fffaf5;--line:#eee8e2;--green:#58b368;--gold:#f5b82e}
+*{box-sizing:border-box}body{margin:0;background:#fffaf6;color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+header{background:linear-gradient(135deg,#f04444,#d92f39);color:white;padding:16px max(18px,calc((100% - 980px)/2));display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:0;z-index:5;box-shadow:0 4px 16px #a52b2b22}
+.logo{font-weight:950;font-size:26px;letter-spacing:-1px}.coins{background:#ffffff24;border:1px solid #ffffff55;border-radius:999px;padding:9px 14px;font-weight:850;white-space:nowrap}
+main{max-width:980px;margin:auto;padding:22px 16px 60px}.hero{background:white;border:1px solid var(--line);border-radius:24px;padding:20px;display:grid;grid-template-columns:1fr 190px;align-items:center;gap:14px;box-shadow:0 8px 30px #44221108}
+h1{font-size:clamp(25px,5vw,38px);line-height:1.1;margin:0 0 8px}.sub{color:var(--muted);margin:0 0 16px}.mascotWrap{position:relative;text-align:center}.mascot{width:100%;max-width:180px;filter:drop-shadow(0 10px 10px #8d292922)}.accessory{position:absolute;top:2px;left:0;right:0;font-size:44px;pointer-events:none}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.stat{background:#fff;border:1px solid var(--line);border-radius:15px;padding:10px 14px;min-width:105px}.stat b{display:block;font-size:20px}.stat small{color:var(--muted)}
+.tabs{display:flex;gap:8px;overflow:auto;margin:20px 0 14px;padding-bottom:3px}.tab{border:1px solid var(--line);background:#fff;border-radius:13px;padding:11px 15px;font-weight:800;color:#555;cursor:pointer;white-space:nowrap}.tab.active{background:var(--red);color:white;border-color:var(--red)}
+.panel{background:#fff;border:1px solid var(--line);border-radius:22px;padding:20px;box-shadow:0 8px 25px #44221108}.row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.panel h2{margin:0 0 14px;font-size:22px}
+select{background:white;border:1px solid #ddd6d0;border-radius:12px;padding:11px 13px;font:inherit;font-weight:700;color:var(--ink);max-width:100%}
+button{font:inherit}.primary{border:0;border-radius:14px;background:var(--red);color:white;padding:13px 18px;font-weight:850;cursor:pointer;box-shadow:0 4px 0 var(--red2)}.primary:disabled{opacity:.5;cursor:not-allowed}.soft{border:1px solid var(--line);background:#fff;border-radius:13px;padding:11px 14px;font-weight:800;cursor:pointer;color:var(--ink)}
+.question{font-size:clamp(24px,5vw,34px);font-weight:900;text-align:center;margin:22px 0 8px}.hint{text-align:center;color:var(--muted);margin-bottom:18px}.answers{display:grid;grid-template-columns:1fr 1fr;gap:10px}.answer{border:2px solid #eee8e2;border-radius:14px;padding:14px;background:#fff;text-align:left;font-weight:750;cursor:pointer}.answer:hover{border-color:#f5aaaa}.answer.correct{border-color:#50b86b;background:#effaf1}.answer.wrong{border-color:#ef6464;background:#fff1f1}.feedback{min-height:28px;text-align:center;font-weight:800;margin:14px 0;color:var(--green)}
+.progress{height:10px;background:#f1ece7;border-radius:99px;overflow:hidden;margin:12px 0}.progress>i{display:block;height:100%;width:0;background:var(--green);transition:width .25s}
+.shopGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:12px}.item{border:1px solid var(--line);border-radius:17px;padding:14px;text-align:center}.item .emoji{font-size:36px}.item b{display:block;margin:5px}.item small{color:var(--muted)}.item button{margin-top:10px;width:100%}
+.wordlist{display:grid;gap:8px}.word{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid #f0ebe6;padding:10px 2px}.word:last-child{border:0}
+.notice{background:#fff5df;border:1px solid #f5dfaa;color:#755317;border-radius:14px;padding:12px 14px;font-size:14px;margin-top:14px}
+footer{text-align:center;color:#96939a;font-size:12px;margin-top:25px}
+@media(max-width:600px){.hero{grid-template-columns:1fr 112px;padding:16px}.mascot{max-width:112px}.accessory{font-size:29px}.answers{grid-template-columns:1fr}.stat{flex:1}.panel{padding:16px}}
+</style>
+</head>
+<body>
+<header><div class="logo">🐦 Lingoo</div><div class="coins">🪙 <span id="coins">0</span> coin</div></header>
+<main>
+<section class="hero">
+ <div><h1>Kelimeleri öğren, kuşunu geliştir!</h1><p class="sub">Her doğru cevapta coin kazan. Coinlerinle kırmızı dostunu özelleştir.</p>
+ <div class="stats"><div class="stat"><b id="learned">0</b><small>Doğru cevap</small></div><div class="stat"><b id="streak">0</b><small>Seri</small></div><div class="stat"><b id="daily">0/10</b><small>Bugünkü hedef</small></div></div></div>
+ <div class="mascotWrap"><div class="accessory" id="equipped"> </div><img class="mascot" src="mascot.png" alt="Lingoo kırmızı kuş maskotu" onerror="this.style.display='none';document.getElementById('fallback').style.display='block'"><div id="fallback" style="display:none;font-size:100px">🐦</div></div>
+</section>
+<nav class="tabs">
+ <button class="tab active" data-tab="study">📚 Çalış</button><button class="tab" data-tab="shop">🎨 Kuşum</button><button class="tab" data-tab="words">📖 Kelimeler</button>
+</nav>
+<section id="study" class="panel">
+ <div class="row"><h2>Kelime antrenmanı</h2><select id="language" aria-label="Öğrenilecek dil"><option value="en">🇬🇧 İngilizce</option><option value="de">🇩🇪 Almanca</option><option value="es">🇪🇸 İspanyolca</option><option value="fr">🇫🇷 Fransızca</option><option value="it">🇮🇹 İtalyanca</option></select></div>
+ <div class="row" style="color:var(--muted);font-size:13px"><span id="counter">Soru 1 / 10</span><span>Doğru cevap +10 🪙</span></div><div class="progress"><i id="bar"></i></div>
+ <div class="question" id="prompt">Apple</div><div class="hint" id="instruction">Bu kelimenin Türkçe karşılığını seç.</div>
+ <div class="answers" id="answers"></div><div class="feedback" id="feedback" aria-live="polite"></div>
+ <div class="row"><button class="soft" id="skip">Atla</button><button class="primary" id="next" disabled>Sonraki soru →</button></div>
+ <div class="notice">İpucu: Her dilin kelime listesi başlangıç seviyesi için hazırlanmıştır. İlerleyen sürümlerde seviyeler ve yeni kelime paketleri ekleyebiliriz.</div>
+</section>
+<section id="shop" class="panel" hidden><div class="row"><h2>Kuşunu özelleştir</h2><span style="font-weight:850">🪙 <span id="shopCoins">0</span></span></div><p class="sub">Aksesuarları coin ile al, sonra kuşuna tak!</p><div class="shopGrid" id="shopGrid"></div></section>
+<section id="words" class="panel" hidden><h2>Kelime defterim</h2><p class="sub">Çalıştığın dilin kelimeleri burada.</p><div class="wordlist" id="wordlist"></div></section>
+<footer>Lingoo · Öğrenerek kazan, kazandıkça kişiselleştir.</footer>
+</main>
+<script>
+const BANK={
+en:[["apple","elma"],["book","kitap"],["water","su"],["house","ev"],["friend","arkadaş"],["sun","güneş"],["beautiful","güzel"],["learn","öğrenmek"],["食べる","yemek"],["happy","mutlu"],["window","pencere"],["flower","çiçek"],["morning","sabah"],["family","aile"],["ありがとう","teşekkürler"]],
+de:[["Hallo","merhaba"],["Wasser","su"],["Buch","kitap"],["Haus","ev"],["Freund","arkadaş"],["Sonne","güneş"],["schön","güzel"],["lernen","öğrenmek"],["Apfel","elma"],["glücklich","mutlu"],["Fenster","pencere"],["Blume","çiçek"],["Morgen","sabah"],["Familie","aile"],["Danke","teşekkürler"]],
+es:[["hola","merhaba"],["agua","su"],["libro","kitap"],["casa","ev"],["amigo","arkadaş"],["sol","güneş"],["bonito","güzel"],["aprender","öğrenmek"],["manzana","elma"],["feliz","mutlu"],["ventana","pencere"],["flor","çiçek"],["mañana","sabah"],["familia","aile"],["gracias","teşekkürler"]],
+fr:[["bonjour","merhaba"],["eau","su"],["livre","kitap"],["maison","ev"],["ami","arkadaş"],["soleil","güneş"],["beau","güzel"],["apprendre","öğrenmek"],["pomme","elma"],["heureux","mutlu"],["fenêtre","pencere"],["fleur","çiçek"],["matin","sabah"],["famille","aile"],["merci","teşekkürler"]],
+it:[["ciao","merhaba"],["acqua","su"],["libro","kitap"],["casa","ev"],["amico","arkadaş"],["sole","güneş"],["bello","güzel"],["imparare","öğrenmek"],["mela","elma"],["felice","mutlu"],["finestra","pencere"],["fiore","çiçek"],["mattina","sabah"],["famiglia","aile"],["grazie","teşekkürler"]]
+};
+const ITEMS=[{id:"cap",name:"Minik şapka",emoji:"🧢",price:50},{id:"glasses",name:"Havalı gözlük",emoji:"🕶️",price:80},{id:"crown",name:"Altın taç",emoji:"👑",price:150},{id:"bow",name:"Kırmızı fiyonk",emoji:"🎀",price:60},{id:"halo",name:"Işık halesi",emoji:"😇",price:120},{id:"flower",name:"Çiçek",emoji:"🌸",price:70}];
+const defaultState={coins:0,correct:0,streak:0,daily:0,date:new Date().toDateString(),owned:[],equipped:null,learned:{}};
+let state;try{state={...defaultState,...JSON.parse(localStorage.getItem("lingooSave")||"{}")}}catch(e){state={...defaultState}}
+if(state.date!==new Date().toDateString()){state.date=new Date().toDateString();state.daily=0}
+const save=()=>{localStorage.setItem("lingooSave",JSON.stringify(state));renderStats()};
+let lang="en",pool=[],idx=0,current=null,answered=false,sessionCorrect=0;
+const $=id=>document.getElementById(id);
+function renderStats(){$("coins").textContent=state.coins;$("shopCoins").textContent=state.coins;$("learned").textContent=state.correct;$("streak").textContent=state.streak;$("daily").textContent=Math.min(state.daily,10)+"/10";$("equipped").textContent=(ITEMS.find(x=>x.id===state.equipped)||{}).emoji||""}
+function shuffle(a){return [...a].sort(()=>Math.random()-.5)}
+function startRound(){pool=shuffle(BANK[lang]).slice(0,10);idx=0;sessionCorrect=0;showQuestion()}
+function showQuestion(){answered=false;current=pool[idx];$("counter").textContent=`Soru ${idx+1} / ${pool.length}`;$("bar").style.width=(idx/pool.length*100)+"%";$("prompt").textContent=current[0];$("instruction").textContent="Bu kelimenin Türkçe karşılığını seç."; $("feedback").textContent="";$("next").disabled=true;$("next").textContent=idx===pool.length-1?"Turu bitir ✓":"Sonraki soru →";
+ const others=shuffle(BANK[lang].filter(x=>x[0]!==current[0])).slice(0,3).map(x=>x[1]);const opts=shuffle([current[1],...others]);$("answers").innerHTML="";
+ opts.forEach(v=>{const b=document.createElement("button");b.className="answer";b.textContent=v;b.onclick=()=>choose(b,v);$("answers").appendChild(b)})}
+function choose(btn,value){if(answered)return;answered=true;const ok=value===current[1];document.querySelectorAll(".answer").forEach(b=>{b.disabled=true;if(b.textContent===current[1])b.classList.add("correct")});if(!ok)btn.classList.add("wrong");
+ if(ok){state.coins+=10;state.correct++;state.streak++;state.daily++;sessionCorrect++;state.learned[lang]=state.learned[lang]||[];if(!state.learned[lang].includes(current[0]))state.learned[lang].push(current[0]);let bonus="";if(state.streak%5===0){state.coins+=25;bonus=" · 5'li seri bonusu +25 coin!";}$("feedback").textContent="Harika! +10 coin"+bonus;$("feedback").style.color="#29934a"}else{state.streak=0;$("feedback").textContent="Olmadı! Doğru cevap: "+current[1];$("feedback").style.color="#d94b4b"}
+ save();$("next").disabled=false;$("bar").style.width=((idx+1)/pool.length*100)+"%"}
+$("next").onclick=()=>{if(idx<pool.length-1){idx++;showQuestion()}else{$("prompt").textContent="Tur tamamlandı! 🎉";$("instruction").textContent=`${sessionCorrect} / ${pool.length} doğru cevap verdin.`;$("answers").innerHTML="";$("feedback").textContent="Yeni bir tur için aşağıya dokun.";$("next").textContent="Yeni tur başlat";$("next").disabled=false;$("next").onclick=()=>{ $("next").onclick=nextHandler;startRound()};}};
+function nextHandler(){if(idx<pool.length-1){idx++;showQuestion()}else{startRound()}}
+$("skip").onclick=()=>{if(idx<pool.length-1){idx++;showQuestion()}else{startRound()}};
+$("language").onchange=e=>{lang=e.target.value;startRound();renderWords()};
+document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x===t));["study","shop","words"].forEach(id=>$(id).hidden=id!==t.dataset.tab);if(t.dataset.tab==="shop")renderShop();if(t.dataset.tab==="words")renderWords()});
+function renderShop(){$("shopCoins").textContent=state.coins;$("shopGrid").innerHTML="";ITEMS.forEach(item=>{const owned=state.owned.includes(item.id),equipped=state.equipped===item.id;const d=document.createElement("div");d.className="item";d.innerHTML=`<div class="emoji">${item.emoji}</div><b>${item.name}</b><small>${owned?"Sahipsin":item.price+" coin"}</small><button class="${owned?"soft":"primary"}">${equipped?"Takılı":owned?"Kuşa tak":"Satın al"}</button>`;d.querySelector("button").onclick=()=>{if(owned){state.equipped=equipped?null:item.id}else if(state.coins>=item.price){state.coins-=item.price;state.owned.push(item.id);state.equipped=item.id}else{alert("Yeterli coin yok. Biraz daha kelime çalış!")}save();renderShop()};$("shopGrid").appendChild(d)})}
+function renderWords(){const words=BANK[lang];const learned=state.learned[lang]||[];$("wordlist").innerHTML=words.map(w=>`<div class="word"><b>${w[0]}</b><span>${w[1]} ${learned.includes(w[0])?"✓":""}</span></div>`).join("")}
+renderStats();startRound();renderWords();
+</script>
+</body></html>
